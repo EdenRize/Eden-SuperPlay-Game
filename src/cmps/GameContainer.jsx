@@ -5,12 +5,10 @@ import gameMusic from '../assets/sound/main.wav';
 
 export function GameContainer() {
     const [isShowPlayBtn, setIsShowPlayBtn] = useState(true);
-    const [isGameStarted, setIsGameStarted] = useState(false);
     const audioRef = useRef(null);
 
     function startGame() {
         setIsShowPlayBtn(false);
-        setIsGameStarted(true);
         if (!audioRef.current) {
             createAudio(); // Create audio only if it doesn't exist
         }

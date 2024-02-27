@@ -1,5 +1,8 @@
 body {
     margin: 0;
+    font-family: curse;
+    color: $main-clr;
+    text-shadow: 2px 2px 1px black;
 
     &:has(.drag) {
         cursor: grabbing;

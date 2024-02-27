@@ -3,6 +3,9 @@ import { getFoods } from '../services/game';
 import { FoodsList } from './FoodsList';
 import { Score } from './Score';
 import feedSound from '../assets/sound/feed.wav'
+import winSound from '../assets/sound/win.mp3'
+import pickSound from '../assets/sound/pick.mp3'
+import { ProgressBar } from './ProgressBar';
 
 export function Game({ onGameOver }) {
     const [foods, setFoods] = useState(getFoods());
@@ -22,6 +25,7 @@ export function Game({ onGameOver }) {
 
     useEffect(() => {
         if (isGameOver()) {
+            playSound(winSound, 0.5)
             clearTimeout(peonTimeOut.current)
             setIsOverFeedContainer(true)
             setTimeout(() => {
@@ -42,6 +46,7 @@ export function Game({ onGameOver }) {
 
     function handleFoodMouseDown(ev) {
         ev.preventDefault();
+        playSound(pickSound, 1)
         const foodEl = ev.target;
         foodEl.classList.add('drag');
         clickedFoodRef.current = foodEl;
@@ -84,7 +89,7 @@ export function Game({ onGameOver }) {
     }
 
     function onFoodEat() {
-        playSound()
+        playSound(feedSound, 0.5)
         setIsShowScore(false)
         const foodName = clickedFoodRef.current.classList[1];
         const foodIdx = foods.findIndex(food => food.name === foodName);
@@ -125,23 +130,30 @@ export function Game({ onGameOver }) {
         window.removeEventListener('touchend', handleMouseUp);
     }
 
-    function playSound() {
-        const audio = new Audio(feedSound)
-        audio.volume = 0.5
+    function playSound(sound, volume) {
+        const audio = new Audio(sound)
+        audio.volume = volume
         audio.play()
     }
 
+    const progressMaxValue = getFoods().length
+    const progressValue = foods.filter(food => food.isEaten).length
+
     return (
         <div className="game">
+            <ProgressBar value={progressValue} maxValue={progressMaxValue} />
 
-            <div className="peon-container">
-                <img className="peon" src={isOverFeedContainer ? "/src/assets/img/Candy_peon.png" : "/src/assets/img/Peon.png"} />
-                <div className="feed-container"></div>
+            <div className="game-actions-container">
+
+                <div className="peon-container">
+                    <img className="peon" src={isOverFeedContainer ? "/src/assets/img/Candy_peon.png" : "/src/assets/img/Peon.png"} />
+                    <div className="feed-container"></div>
+                </div>
+
+                <FoodsList foods={foods} handleFoodMouseDown={handleFoodMouseDown} />
+
+                {isShowScore && <Score />}
             </div>
-
-            <FoodsList foods={foods} handleFoodMouseDown={handleFoodMouseDown} />
-
-            {isShowScore && <Score />}
         </div>
     );
 }

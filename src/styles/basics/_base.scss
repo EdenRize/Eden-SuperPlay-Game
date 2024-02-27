@@ -1,0 +1,16 @@
+body {
+    margin: 0;
+
+    &:has(.drag) {
+        cursor: grabbing;
+    }
+}
+
+img {
+    -webkit-user-modify: none;
+    -webkit-user-drag: none;
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+}

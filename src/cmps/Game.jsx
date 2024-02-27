@@ -6,6 +6,8 @@ import feedSound from '../assets/sound/feed.wav'
 import winSound from '../assets/sound/win.mp3'
 import pickSound from '../assets/sound/pick.mp3'
 import { ProgressBar } from './ProgressBar';
+import candyPeonUrl from '../assets/img/Candy_peon.png'
+import peonUrl from '../assets/img/Peon.png'
 
 export function Game({ onGameOver }) {
     const [foods, setFoods] = useState(getFoods());
@@ -146,7 +148,7 @@ export function Game({ onGameOver }) {
             <div className="game-actions-container">
 
                 <div className="peon-container">
-                    <img className="peon" src={isOverFeedContainer ? "/src/assets/img/Candy_peon.png" : "/src/assets/img/Peon.png"} />
+                    <img className="peon" src={isOverFeedContainer ? candyPeonUrl : peonUrl} />
                     <div className="feed-container"></div>
                 </div>
 
